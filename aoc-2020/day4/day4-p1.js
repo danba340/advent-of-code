@@ -1133,12 +1133,41 @@ pid:487702556 hcl:#602927
 hgt:167cm eyr:2026`;
 
 const output = input.split('\n\n').reduce((validAmount, passport) => {
-  console.log('\n__passport__', passport)
+  // regex match /3 letters, colon, anything/
+  const regex = /([a-z]{3}:)(\w|#)+/g
 
-  // const split = passport.split(':');
-  // console.log('split:', split);
+  const matches = passport.match(regex);
+  console.log('__passport__:', matches)
 
-  // regex match /3 letters, colon, anything, space/
+  let fieldsFulfilled = 0;
+  let optionalFieldsUsed = 0;
+  let isValid = matches.every((match, index) => {
+    const [ key, val ] = match.split(':');
 
-  return validAmount;
+    switch (key) {
+      case 'cid':
+        fieldsFulfilled += 1;
+        optionalFieldsUsed += 1;
+        return true
+      case 'byr':
+      case 'iyr':
+      case 'eyr':
+      case 'hgt':
+      case 'hcl':
+      case 'ecl':
+      case 'pid':
+        fieldsFulfilled += 1;
+        return true
+      default:
+        return false
+    }
+  });
+
+  if (fieldsFulfilled < 7 + optionalFieldsUsed) {
+    isValid = false;
+  }
+
+  return isValid ? ++validAmount : validAmount;
 }, 0);
+
+console.log('output:', output)
