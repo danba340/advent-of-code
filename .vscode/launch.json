@@ -11,7 +11,7 @@
       "skipFiles": [
         "<node_internals>/**"
       ],
-      "program": "${workspaceFolder}/day3-p2.js"
+      "program": "${workspaceFolder}/aoc-2020/day4/day4-p1.js"
     }
   ]
 }
